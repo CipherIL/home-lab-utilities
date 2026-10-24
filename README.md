@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Utils index
 
-## Getting Started
+Static index of browser utilities. The Next.js app is this page only. Each utility is a separate folder on the web server, and the browser downloads it when a normal link opens that path.
 
-First, run the development server:
+## Add a utility
+
+1. Add an entry to `lib/utilities.ts`. `path` is a same-host path with a trailing slash, such as `/lightcraft/`.
+2. Put that utility's files in a folder of the same name on the server. Do not import them into this app.
+3. Keep the link as `<a href data-utility>`. Next.js intercepts ordinary same-host anchors, so the index handles that click itself and loads the path with `window.location`. A Next.js `<Link>` would prefetch a route in this app.
+
+The first entries are LightCraft, PdfCraft, and PhotoCraft. Their files are not in this repository.
+
+## Scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
+pnpm build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`pnpm build` writes the static site to `out/`. Serve `out/` at `/`. Serve each utility folder at `/<name>/`. `.wasm` files must be `application/wasm`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Recently used is stored in this browser's `localStorage` under `utils-index:recent`. It does not sync between machines.

@@ -1,0 +1,76 @@
+.utility-card {
+  $transitionDuration: .2s;
+  flex: 1 1 16rem;
+  max-width: 22rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background: #151a21;
+  overflow: hidden;
+  transition: border $transitionDuration ease-in-out;
+
+  > a {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .banner {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1.6 / 1;
+    object-fit: cover;
+    background: #243040;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 44px 16px 16px;
+    position: relative;
+
+    .heading {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .icon {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 16px;
+      translate: 0 -50%;
+      transition: translate $transitionDuration ease-in-out;
+    }
+
+    .name {
+      font: {
+        size: 32px;
+        weight: 600;
+      }
+    }
+
+    .summary,
+    .when {
+      color: #93a0b0;
+    }
+
+    .when {
+      font-size: 0.875rem;
+    }
+  }
+
+  &:hover {
+    border-color: #7ea0be;
+
+    .body .icon {
+      translate: 0 -55%;
+    }
+  }
+}
