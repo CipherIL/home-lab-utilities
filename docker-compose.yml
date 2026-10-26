@@ -1,0 +1,13 @@
+services:
+  utils:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      GH_TOKEN: ${GH_TOKEN:?Set GH_TOKEN to a token that can read the private repository}
+    volumes:
+      - utils:/srv/utils
+    restart: unless-stopped
+
+volumes:
+  utils:

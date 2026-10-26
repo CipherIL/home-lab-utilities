@@ -1,0 +1,40 @@
+{
+  "groups": [
+    { "key": "art-craft", "title": "ArtCraft" }
+  ],
+  "utilities": [
+    {
+      "id": "photo-craft",
+      "name": "PhotoCraft",
+      "path": "/photo-craft/index.html",
+      "groupKey": "art-craft",
+      "summary": "Layered photo editor",
+      "iconSrc": "/media/photo-craft/icon.webp",
+      "bannerSrc": "/media/photo-craft/hero.webp",
+      "release": {
+        "repo": "storytold/photocraft",
+        "tag": "v0.16.0",
+        "assetPrefix": "photocraft-web-",
+        "assetSuffix": ".zip"
+      }
+    },
+    {
+      "id": "light-craft",
+      "name": "LightCraft",
+      "path": "/light-craft",
+      "groupKey": "art-craft",
+      "summary": "Photo library and RAW developer",
+      "iconSrc": "/media/light-craft/icon.webp",
+      "bannerSrc": "/media/light-craft/hero.webp"
+    },
+    {
+      "id": "pdf-craft",
+      "name": "PDFCraft",
+      "path": "/pdf-craft",
+      "groupKey": "art-craft",
+      "summary": "Read, organize, and export PDFs",
+      "iconSrc": "/media/pdf-craft/icon.webp",
+      "bannerSrc": "/media/pdf-craft/hero.webp"
+    }
+  ]
+}

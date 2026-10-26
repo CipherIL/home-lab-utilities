@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# Official PhotoCraft web build, unpacked for a local check. Not the lab copy.
+/public/photo-craft/
+
 # production
 /build
 

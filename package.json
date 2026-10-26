@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fetch-utilities": "node scripts/fetch-web-releases.mjs"
   },
   "dependencies": {
     "next": "16.4.3",
