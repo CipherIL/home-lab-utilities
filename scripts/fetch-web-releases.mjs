@@ -29,10 +29,11 @@ const releases = catalog.utilities.filter((utility) => utility.release);
 
 for (const utility of releases) {
   const release = utility.release;
-  const viewed = JSON.parse(run("gh", [
-    "release", "view", release.tag,
-    "--repo", release.repo,
-    "--json", "tagName,assets",
+  const viewed = JSON.parse(run("curl", [
+    "-fsSL",
+    "-H", "Accept: application/vnd.github+json",
+    "-H", "User-Agent: home-lab-utilities",
+    `https://api.github.com/repos/${release.repo}/releases/tags/${encodeURIComponent(release.tag)}`,
   ]));
   const assets = viewed.assets.filter((asset) =>
     asset.name.startsWith(release.assetPrefix) && asset.name.endsWith(release.assetSuffix)
@@ -42,26 +43,26 @@ for (const utility of releases) {
     throw new Error(`${release.repo} ${release.tag} matched ${assets.length} web zips: ${names}`);
   }
 
-  const asset = assets[0].name;
+  const asset = assets[0];
   const staging = mkdtempSync(path.join(tmpdir(), "utils-web-"));
   const dest = path.join(into, utility.id);
   try {
-    run("gh", [
-      "release", "download", release.tag,
-      "--repo", release.repo,
-      "--pattern", asset,
-      "--dir", staging,
-      "--clobber",
+    run("curl", [
+      "-fL",
+      "--retry", "3",
+      "-H", "User-Agent: home-lab-utilities",
+      "-o", path.join(staging, asset.name),
+      asset.browser_download_url,
     ]);
     rmSync(dest, { recursive: true, force: true });
     mkdirSync(dest, { recursive: true });
-    run("tar", ["-xf", path.join(staging, asset), "-C", dest, "--strip-components=1"]);
+    run("tar", ["-xf", path.join(staging, asset.name), "-C", dest, "--strip-components=1"]);
   } finally {
     rmSync(staging, { recursive: true, force: true });
   }
 
   if (!existsSync(path.join(dest, "index.html"))) {
-    throw new Error(`${dest} has no index.html after unpacking ${asset}`);
+    throw new Error(`${dest} has no index.html after unpacking ${asset.name}`);
   }
-  console.log(`${utility.id}: ${viewed.tagName} ${asset} -> ${dest}`);
+  console.log(`${utility.id}: ${viewed.tag_name} ${asset.name} -> ${dest}`);
 }

@@ -1,10 +1,34 @@
+# Copy this file alone to a directory on the server, then run:
+#   docker compose up -d --build
+# The container clones the public repository and runs its scripts.
+# Restarting the container repeats that update.
+
 services:
   utils:
-    build: .
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM node:24-bookworm
+        RUN apt-get update \
+          && apt-get install -y --no-install-recommends ca-certificates curl git nginx tar \
+          && corepack enable \
+          && corepack prepare pnpm@11.0.9 --activate \
+          && rm -f /etc/nginx/sites-enabled/default \
+          && rm -rf /var/lib/apt/lists/*
+        EXPOSE 80
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        set -eu
+        mkdir -p /srv/utils
+        if [ ! -d /srv/utils/src/.git ]; then
+          git clone --branch main --single-branch https://github.com/CipherIL/home-lab-utilities.git /srv/utils/src
+        fi
+        node /srv/utils/src/scripts/deploy.mjs --root /srv/utils
+        node /srv/utils/src/scripts/write-nginx.mjs /etc/nginx/conf.d/utils.conf
+        exec nginx -g 'daemon off;'
     ports:
       - "8080:80"
-    environment:
-      GH_TOKEN: ${GH_TOKEN:?Set GH_TOKEN to a token that can read the private repository}
     volumes:
       - utils:/srv/utils
     restart: unless-stopped

@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
-const repo = "CipherIL/home-lab-utilities";
+const repo = "https://github.com/CipherIL/home-lab-utilities.git";
 
 function arg(name) {
   const index = process.argv.indexOf(name);
@@ -35,7 +35,7 @@ const utilities = path.join(root, "utilities");
 mkdirSync(root, { recursive: true });
 
 if (!existsSync(path.join(src, ".git"))) {
-  run("gh", ["repo", "clone", repo, src, "--", "--branch", "main"]);
+  run("git", ["clone", "--branch", "main", "--single-branch", repo, src]);
 } else {
   run("git", ["fetch", "origin", "main"], src);
   run("git", ["checkout", "main"], src);
