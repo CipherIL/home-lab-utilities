@@ -10,7 +10,7 @@ services:
       dockerfile_inline: |
         FROM node:24-bookworm
         RUN apt-get update \
-          && apt-get install -y --no-install-recommends ca-certificates curl git nginx tar \
+          && apt-get install -y --no-install-recommends ca-certificates curl git nginx tar unzip \
           && corepack enable \
           && corepack prepare pnpm@11.0.9 --activate \
           && rm -f /etc/nginx/sites-enabled/default \

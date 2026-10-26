@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, mkdirSync, existsSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, mkdirSync, existsSync, readdirSync, statSync, cpSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,6 +21,22 @@ function run(command, args) {
     throw new Error(`${command} ${args.join(" ")} failed${detail ? `: ${detail}` : ""}`);
   }
   return result.stdout;
+}
+
+function unpack(archive, dest) {
+  const zip = archive.endsWith(".zip");
+  const unzip = zip ? spawnSync("unzip", ["-v"], { encoding: "utf8" }) : undefined;
+  if (zip && unzip.status === 0) {
+    const extracted = path.join(path.dirname(archive), "unpack");
+    mkdirSync(extracted);
+    run("unzip", ["-q", archive, "-d", extracted]);
+    const entries = readdirSync(extracted);
+    const only = entries.length === 1 ? path.join(extracted, entries[0]) : undefined;
+    const source = only && statSync(only).isDirectory() ? only : extracted;
+    cpSync(source, dest, { recursive: true });
+    return;
+  }
+  run("tar", ["-xf", archive, "-C", dest, "--strip-components=1"]);
 }
 
 const into = path.resolve(root, arg("--into") ?? "public");
@@ -56,7 +72,7 @@ for (const utility of releases) {
     ]);
     rmSync(dest, { recursive: true, force: true });
     mkdirSync(dest, { recursive: true });
-    run("tar", ["-xf", path.join(staging, asset.name), "-C", dest, "--strip-components=1"]);
+    unpack(path.join(staging, asset.name), dest);
   } finally {
     rmSync(staging, { recursive: true, force: true });
   }
