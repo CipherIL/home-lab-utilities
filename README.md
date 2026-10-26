@@ -27,6 +27,6 @@ The container pulls `main` again and downloads the pinned releases. Run `docker 
 
 ## What is downloaded
 
-PhotoCraft is pinned in the catalog and is downloaded as the official web zip. LightCraft and PDFCraft are listed on the index and have no release yet, so the container does not download them.
+The catalog pins PhotoCraft `v0.16.0`, LightCraft `v0.14.0`, and PDFCraft `v0.14.0`. The container downloads each official web zip.
 
 Recently used is stored in the browser under `utils-index:recent`. It does not sync between machines.

@@ -13,7 +13,13 @@ export function C_UtilityCard(p: Props) {
 
     return <li className={'utility-card'} data-utility={p.utility.id}>
         <a href={p.utility.path}>
-            <Image src={p.utility.bannerSrc} alt={''} width={0} height={0} className={'banner'}/>
+            <Image
+                src={p.utility.bannerSrc}
+                alt={''}
+                width={0} height={0}
+                className={'banner'}
+                loading={'eager'}
+            />
             <div className="body">
                 <Image src={p.utility.iconSrc} alt={''} width={72} height={72} className={'icon'}/>
                 <span className="name">{p.utility.name}</span>

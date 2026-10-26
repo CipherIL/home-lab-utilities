@@ -21,20 +21,32 @@
     {
       "id": "light-craft",
       "name": "LightCraft",
-      "path": "/light-craft",
+      "path": "/light-craft/index.html",
       "groupKey": "art-craft",
       "summary": "Photo library and RAW developer",
       "iconSrc": "/media/light-craft/icon.webp",
-      "bannerSrc": "/media/light-craft/hero.webp"
+      "bannerSrc": "/media/light-craft/hero.webp",
+      "release": {
+        "repo": "storytold/lightcraft",
+        "tag": "v0.14.0",
+        "assetPrefix": "lightcraft-web-",
+        "assetSuffix": ".zip"
+      }
     },
     {
       "id": "pdf-craft",
       "name": "PDFCraft",
-      "path": "/pdf-craft",
+      "path": "/pdf-craft/index.html",
       "groupKey": "art-craft",
       "summary": "Read, organize, and export PDFs",
       "iconSrc": "/media/pdf-craft/icon.webp",
-      "bannerSrc": "/media/pdf-craft/hero.webp"
+      "bannerSrc": "/media/pdf-craft/hero.webp",
+      "release": {
+        "repo": "storytold/pdfcraft",
+        "tag": "v0.14.0",
+        "assetPrefix": "pdfcraft-web-",
+        "assetSuffix": ".zip"
+      }
     }
   ]
 }
